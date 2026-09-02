@@ -5,6 +5,8 @@ import Footer from '@/components/Footer';
 import { fetchAPI } from '@/lib/api';
 import type { SiteSettings } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 interface ApiDesignToken {
   id: string;
   type: string;
