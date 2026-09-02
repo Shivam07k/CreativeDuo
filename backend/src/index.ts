@@ -14,14 +14,20 @@ const PORT = process.env.PORT || 4000;
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-const corsOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000')
-  .split(',')
+const corsOrigins = [
+  ...(process.env.CORS_ORIGIN || '').split(','),
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:4173',
+]
   .map((o) => o.trim())
   .filter(Boolean);
 
+const allowOrigins = [...new Set(corsOrigins)];
+
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || corsOrigins.includes('*') || corsOrigins.includes(origin)) {
+    if (!origin || allowOrigins.includes('*') || allowOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(null, false);
