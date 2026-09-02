@@ -1,0 +1,40 @@
+# Render blueprint - Infrastructure as code
+# Creates the backend API and the Next.js frontend as Render Web Services.
+#
+# Usage:
+#   1. Push this repository to GitHub.
+#   2. In Render Dashboard: New -> Blueprint -> connect this repo.
+#   3. Set the environment var values (they are left empty here).
+#   The blueprint will create two services automatically.
+
+services:
+  # ---- Backend API (Express + Supabase) ----
+  - type: web
+    name: creative-duo-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: SUPABASE_URL
+        sync: false # set via Render dashboard
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false # set via Render dashboard
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        sync: false
+
+  # ---- Frontend (Next.js) ----
+  - type: web
+    name: creative-duo-web
+    runtime: node
+    rootDir: frontend
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false # set to the deployed backend URL, e.g. https://creative-duo-api.onrender.com
