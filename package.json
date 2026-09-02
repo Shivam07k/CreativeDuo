@@ -10,9 +10,5 @@
     "build:frontend": "npm --prefix frontend run build",
     "start:backend": "npm --prefix backend run start",
     "start:frontend": "npm --prefix frontend run start"
-  },
-  "workspaces": [
-    "frontend",
-    "backend"
-  ]
+  }
 }
